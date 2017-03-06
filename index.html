@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		my first github page
+	</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+	<style type="text/css">
+	   body{
+	    overflow-y: hidden;
+	   }
+	   #text{
+	   	position:absolute;
+	   	margin-left:-250px;
+	   	width: 500px;
+	   	top:35%;
+	   	left:50%;
+	   	font-size:30px;
+	   	text-align: center;
+	   	font-family: sans-serif;
+	   }
+	   #text a{
+	   	padding-left: 30px;
+	   	font-size: 15px;
+	   }
+
+	  #canvas{
+	  	position:absolute;
+	  	margin-left:-300px;
+        margin-top:-150px;
+        width: 600px;
+        height:300px;
+        left:50%;
+        top:10%;
+        border-bottom:solid 1px black;
+	  }
+      #dragon{
+      	position: absolute;
+      	width: 60px;
+      	height: 60px;
+      	right:0px;
+      	bottom: 0px;
+      }
+      #dragon img{
+      	width: 60px;
+      	height: 60px;
+      }
+      #alien{
+      	position: absolute;
+      	width: 80px;
+      	height: 60px;
+      	left :0px;
+      	bottom: 0px;
+      }
+      #alien img,.teleport img,.attack img{
+      	width: 80px;
+      	height: 60px;
+      }
+      .teleport{
+      	position: absolute;
+      	width: 80px;
+      	height: 60px;
+      	left :0px;
+      	bottom: 0px;
+      	visibility:hidden;
+      }
+      .attack{
+      	position: absolute;
+      	width: 80px;
+      	height: 60px;
+      	left :0px;
+      	bottom: 0px;
+      	visibility:hidden;
+      }
+      #cloud{
+      	position: absolute;
+      	width: 80px;
+      	height: 40px;
+      	right:20px;
+      	top: 150px;
+      }
+      #cloud img{
+      	width: 80px;
+      	height: 40px;
+      }
+      #canvas input{
+      	position: absolute;
+      	margin-left: -30px;
+      	margin-top: -15px;
+      	width:60px;
+      	height: 30px;
+      	color: white;
+      	background-color:black;
+      	left:50%;
+      	top:50%;
+      	cursor: pointer;
+      }
+	</style>
+</head>
+<body>
+<div id ="canvas">
+	 <div id = "dragon">
+	   <img src = "images/dragonLeft.png"/>
+	 </div>
+	 <div id ="alien">
+	   <img src = "images/android_alien.png"/>
+	 </div>
+	 <div id ="cloud">
+	   <img src = "images/cloud.png"/>
+	 </div>
+	 <div class ="teleport">
+	   <img src = "images/teleport1.png"/>
+	 </div>
+	  <div class ="attack">
+	   <img src = "images/attack1.png"/>
+	 </div>
+	 <input type = "button" value="start"/>
+ </div>
+ <div id = "text">
+   able to connect to the Internet<br>
+   <a>a:attack</a><a>->:teleport</a>
+   <p style="font-size:20px;font-family:Microsoft JhengHei;">大家好 我是蔡帛融 這是一款廢廢的小遊戲</p>
+   </div>
+ <script> 
+   var dragonX = 0,cloudX = 0, dx = 8 ,dx1 = 3 ,alienX = 0; //object position
+   var y = 240, dy = 20,alienY = 240; 
+   var dead = true;
+   var dragonDead = false,userDead = false;
+   var t,t1,t2,t3;//timer
+   var action = true; //for walk step
+   var teleport_timer = 0,attack_timer = 0;
+   $("#canvas input").click(function(){
+   	 $(this).val(function(){
+   	 	if($(this).val() == "start"){
+            dragonDead = false;userDead = false;
+            attack_timer = 0;teleport_timer = 0;
+            dragonX = 0;cloudX = 0;y = 240;dy = 20;alienY = 240;
+             t = setInterval(walk,200);
+   	 		return "retry";
+   	 	}else{
+   	 		clearInterval(t);clearInterval(t3);
+   	 		action = true;
+   	 		alienX = 0;
+   	 		$("#dragon").css({"right":"0px","top":"240px"});
+   	 		$("#alien").css({"top":"240px","left":"0px"});
+   	 		$("#dragon img").attr("src","images/dragonLeft.png");
+   	 		$("#alien img").attr("src","images/android_alien.png");
+   	 		$("body").css({"background-color":"white"});
+   	 		return "start";
+   	 	}
+   	 });
+   });
+  $("#canvas").keydown(function(e){
+	    if( dragonDead || userDead );
+	  	else{
+	       if(e.which == 39) {
+	        $(".teleport").css({"left":""+alienX+"px"}); //initialize position
+	        alienX += 100;
+	       	t1 = setInterval(teleport,30);
+	       }
+	       else if(e.which == 65) {
+	       	alienX += 80;
+	       	t2 = setInterval(attack,30);
+	       }
+	   }
+   });
+   function walk(){
+   	 dragonX += dx;
+   	 cloudX += dx1;
+   	$("#alien img").attr("src",function(){ 
+   		action = (!action);
+   		return (action)?"images/android_alien.png":"images/android_alien1.png" ;
+   	});
+   	$("#cloud").css({"right":""+cloudX+"px"});
+   	if(Math.abs((alienX+60) - (570-dragonX)) <= 16 ) {
+   		userDead = true;
+   		clearInterval(t);
+   		$("body").css({"background-color":"#F96B78"});
+   		t3 = setInterval(failure,180);
+   	}
+   	if( dragonX <= 555) $("#dragon").css({"right":""+dragonX+"px"});
+    else{
+    	y += dy;
+    	dy += 6;
+    	$("#dragon").css({"top":""+y+"px"});
+    }
+   }
+   function teleport(){
+      teleport_timer ++;
+      $("#alien").css({"visibility":"hidden"});
+      $(".teleport").css({"visibility":"visible"});
+      if(teleport_timer == 10) $(".teleport img").attr("src","images/teleport2.png");
+      if(teleport_timer == 15){
+      	$("#alien").css({"visibility":"visible","left":""+alienX+"px"});
+      	$(".teleport").css({"left":""+alienX+"px"});
+      	$(".teleport img").attr("src","images/teleport1.png");
+      	$(".teleport").css({"visibility":"hidden"});
+      	clearInterval(t1);
+      	teleport_timer =0;
+      }
+   }
+   
+   function attack(){
+	   	attack_timer ++;
+	    if(attack_timer == 1) $("#alien").css({"visibility":"hidden"});
+	   	if(attack_timer == 5) {
+	   		$(".attack").css({"visibility":"visible","left":""+(alienX - 40)+"px"});
+	        if( Math.abs((alienX) - (580-dragonX)) <= 30 ) dragonDead = true;
+	   	}
+	   	if(attack_timer == 10) {
+	       $("#alien").css({"visibility":"visible","left":""+alienX+"px"});
+	       $(".attack").css({"visibility":"hidden"});
+	       if(!dragonDead) {
+	       	  clearInterval(t2);
+              attack_timer = 0;
+	       }else clearInterval(t);
+	    }
+	    if(attack_timer == 15 ) { // kill the dragon
+	    	$("#alien").css({"visibility":"visible","left":""+alienX+"px"});
+	    	$("#alien img").attr("src","images/attack_last.png"); 
+	    }
+	    if(attack_timer == 60){
+	    		$("#alien img").attr("src","images/android_alien.png"); 
+		        $(".attack").css({"visibility":"hidden"});
+		    	$("#dragon img").attr("src","images/dragonDead.png"); //dragon dead
+	            clearInterval(t2);
+	        }
+    }
+    function failure(){
+        alienY += dy;  //user drop
+    	dy += 5;
+    	$("#alien").css({"top":""+alienY+"px"});
+    } 
+ </script>
+</body>
+</html>
