@@ -42,7 +42,7 @@ header input[type=text]{
 	left:0px;
 	height:100%;
 	width:100%;
-	background: url('images/page1_bg.png') no-repeat center ;
+	background: url('images/page1_bg.PNG') no-repeat center ;
     background-size: cover;
 }
 #page1 img{
