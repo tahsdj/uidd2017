@@ -40,7 +40,7 @@ header input[type=text]{
 	background-color:#E6E6E0;
 }
 #page1{
-	position:absolute;
+	position: absolute;
 	top:0px;
 	left:0px;
 	height:100%;
@@ -82,7 +82,7 @@ header input[type=text]{
 	cursor: pointer;
 }
 #page2{
-	position:absolute;
+	position: absolute;
 	top:100%;
 	left:0px;
 	height:83%;
@@ -100,22 +100,22 @@ header input[type=text]{
 #page2 .itemList .item{
 	margin-left: 50px;
 	margin-right: 15px;
+	margin-bottom: 25px;
 	width:260px;
 	height: 400px;
 	background-color: #D1D0CA;
-	float:left;
+	float: left;
 }
 #page2 .itemList .item img{
 	width:255px;
 	height:385px;
-    vertical-align: middle;
 }
 #page2 .itemList .item div{
-	position: absolute;
+	position:absolute;
+	top:315px;
 	width: 260px;
 	height: 70px;
 	background-color: #FCE55B;
-	bottom: 15px;
 	text-align: center;
 	line-height: 63px;
 	font-family: sans-serif ;
@@ -123,8 +123,8 @@ header input[type=text]{
 	opacity: 0.8;
 }
 #page3{
-	position:absolute;
-	top:170%;
+	position: absolute;
+	top:183%;
 	left:0px;
 	height:100%;
 	width:100%;
